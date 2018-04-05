@@ -1,6 +1,3 @@
-
-
-
 class Controller(object):
 	"""docstring for Controller"""
 	def __init__(self, arg):

@@ -1,4 +1,4 @@
-print("Hello")
-print("Hello2")
-print("Hello3")
-print("Hello5")
+from StopAndWait_Pairyty import StopAndWait_Pairyty
+
+start=StopAndWait_Pairyty(128)
+start.parity()
