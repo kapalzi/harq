@@ -5,9 +5,12 @@ class StopAndWait_Pairyty(object):
 	def __init__(self, signal):
 
 		self.signal = bin(signal)
-		print(type(self.signal))
-		print(self.signal)
 
 	def parity(self):
-		return(self.signal[-1])
+		pairytyBit = int(self.signal[2])
+		for x in self.signal[3:]:
+			pairytyBit=xor(pairytyBit,int(x))
+
+		self.signal=self.signal+str(pairytyBit)
+		return(pairytyBit)
 
