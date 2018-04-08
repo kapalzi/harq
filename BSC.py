@@ -1,10 +1,15 @@
 import random
+import numpy
 
-def BSC(frame):
-    BER = 1
-    XOR = 1
-    for i in range (0,8):
-        if random.randint(0,99) < BER:
-            frame = frame ^ XOR
-        XOR = XOR*2
-    return frame
+
+class BSC:
+    def BSC(frame):
+        _BER = 1
+        _XOR = 1
+        for i in range(0, 8):
+            if random.randint(0, 5) < _BER:
+                frame = frame ^ _XOR
+            _XOR = _XOR * 2
+        return frame
+
+
