@@ -4,3 +4,4 @@ class Controller(object):
     def __init__(self, arg):
         super(Controller, self).__init__()
         self.arg = arg
+        

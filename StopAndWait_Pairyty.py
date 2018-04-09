@@ -1,6 +1,5 @@
 from operator import xor
 
-
 class StopAndWait_Pairyty(object):
     """docstring for StopAndWait"""
 
