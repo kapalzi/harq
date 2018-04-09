@@ -1,6 +1,7 @@
 import random
 import numpy
 
+
 class BSC:
     def BSC(frame):
         _BER = 1
