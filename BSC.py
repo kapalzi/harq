@@ -1,7 +1,7 @@
 import random
-import numpy
 
 class BSC:
+    @staticmethod
     def BSC(frame):
         _BER = 1
         _XOR = 1
