@@ -7,7 +7,6 @@ import numpy as np
 import numpy as np
 from PIL import Image
 import random
-import matplotlib.pyplot as plt
 
 
 class Controller(object):
