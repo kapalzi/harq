@@ -12,7 +12,6 @@ class Pairyty(object):
         frame = frame + str(pairytyBit)
         return (frame)
     def getParityBit(self):
-        print(self)
         return self[-1]
 
 # class Pairyty(object):
