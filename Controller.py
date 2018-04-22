@@ -57,13 +57,22 @@ class Controller(object):
         array = np.array(img)
         height,width = img.size
 
+        print(height, width)
         for x in range(0,width):
             for y in range(0,height):
                 for rgb in range(0,3):
-                    origin_parity = Pairyty.addPairityBit(array[x,y,rgb])
-                    array[x,y,rgb] = SAW.SAW(array[x,y,rgb],origin_parity)
+                    array[x,y,rgb] = BSC.BSC(array[x, y, rgb])
+        imgBSC = Image.fromarray(array)
+        imgBSC.save('BSC.png')
+        imgBSC.show()
 
-        img = Image.fromarray(array)
-        img.save('new.png')
-        img.show()
+        array = np.array(img)
+        for x in range(0,width):
+            for y in range(0,height):
+                for rgb in range(0,3):
+                    originParity = Pairyty.addPairityBit(array[x,y,rgb])
+                    array[x,y,rgb] = SAW.SAW(array[x,y,rgb], originParity)
 
+        imgSAW = Image.fromarray(array)
+        imgSAW.save('AfterSAW.png')
+        imgSAW.show()
