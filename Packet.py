@@ -1,12 +1,13 @@
 import pygame, sys, os
 from pygame.locals import *
 
-class Receiver:
-    def __init__(self, _surface, _color, _x, _crc = 0):
+class Packet:
+    def __init__(self, _surface, _color, _x):
         self.surface = _surface
         self.color = _color
-        self.rect = pygame.Rect(20 * _x, 460, 15, 30)
-        self.crc = _crc
+        self.rect = pygame.Rect(20*_x, 10, 15, 30)
+        self.direction = 1
+
     def setColor(self, _color):
         self.color = _color
 
@@ -21,3 +22,6 @@ class Receiver:
 
     def draw(self):
         pygame.draw.rect(self.surface, self.color, self.rect)
+
+    def update(self):
+        self.rect = self.rect.move(0, self.direction)

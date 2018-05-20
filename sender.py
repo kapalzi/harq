@@ -1,20 +1,28 @@
-import threading
-import receiver
+import pygame, sys, os
+from pygame.locals import *
 
-timeout = 4000 #4000ms = 4s
-message = 0
-class Sender(object): #jeżeli timeouted to NACK
-    def __init__(self):
+class Sender:
+    def __init__(self, _surface, _color, _x, _frame = 0):
+        self.surface = _surface
+        self.color = _color
+        self.rect = pygame.Rect(20 * _x, 10, 15, 30)
+        self.frame = _frame
+    def setColor(self, _color):
+        self.color = _color
 
-    def Message(self):
-        return message
+    def setDirection(self, _direction):
+        self.direction = _direction
 
-    def getMessage(self, receiver): #odbieranie ACK
-        if(receiver.ACK == -1) #powtórzenie wysyłania w przypadku niepowodzenia (NACK)
-            self.sendPacket(self, receiver)
-        else
-            return
-    def sendPacket(self, receiver): #wysylanie pakietu
-    def Start(self):
-        while (True)
-            self.getMessage(receiver)
+    def setRect(self, _rect):
+        self.rect = _rect
+
+    def setSurface(self, _surface):
+        self.surface = _surface
+
+    def setFrame(self, _frame):
+        self.frame = _frame
+
+    def draw(self):
+        pygame.draw.rect(self.surface, self.color, self.rect)
+
+
