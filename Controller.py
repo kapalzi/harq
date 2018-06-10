@@ -8,6 +8,7 @@ import numpy as np
 from PIL import Image
 import random
 from CRC import CRC
+import time
 
 class Controller(object):
     """docstring for Controller"""
@@ -52,6 +53,15 @@ class Controller(object):
     # print(12)
     @staticmethod
     def loadImg():
+
+        for x in range(1,9):
+            imgArray = np.zeros([x,x*2,3], dtype=np.uint8)
+            imgArray.fill(255)
+            imgFromArray = Image.fromarray(imgArray.astype('uint8')).convert('RGBA')
+            imgFromArray.save("%d.png"%x)
+
+
+
         img = Image.open("testimg.png")
         img.show()
         array = np.array(img)
@@ -66,17 +76,29 @@ class Controller(object):
         imgBSC.save('BSC.png')
         imgBSC.show()
 
-        array = np.array(img)
-        for x in range(0,width):
-            for y in range(0,height):
-                for rgb in range(0,3):
-                    originParity = Pairyty.addPairityBit(array[x,y,rgb])
-                    array[x,y,rgb] = SAW.SAW(array[x,y,rgb], originParity)
+        # ramka + saw + bsc + bit parzystosci
+        frameSawBscPairytyTimes = []
+        for x in range(0,9):
+            img = Image.open("%d.png"%x)
+            img.show()
+            height, width = img.size
 
-        imgSAW = Image.fromarray(array)
-        imgSAW.save('AfterSAW.png')
-        imgSAW.show()
+            start_time = time.time()
+            array = np.array(img)
+            for x in range(0,width):
+                for y in range(0,height):
+                    for rgb in range(0,3):
+                        originParity = Pairyty.addPairityBit(array[x,y,rgb])
+                        array[x,y,rgb] = SAW.SAW(array[x,y,rgb], originParity)
 
+            imgSAW = Image.fromarray(array)
+            imgSAW.save('AfterSAW.png')
+            imgSAW.show()
+            elapsed_time = time.time() - start_time
+            frameSawBscPairytyTimes.append(elapsed_time)
+
+
+        # ramka + saw + bsc + crc
         array = np.array(img)
         for x in range(0, width):
             for y in range(0, height):
@@ -87,3 +109,6 @@ class Controller(object):
         imgSAW = Image.fromarray(array)
         imgSAW.save('AfterSAWCRC.png')
         imgSAW.show()
+
+        for x in frameSawBscPairytyTimes:
+            print(x)
