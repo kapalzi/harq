@@ -31,6 +31,7 @@ class SAW:
     @staticmethod
     def SAWGilbert(frame, originParity):
         while True:  # Powtarza wysylanie az bit parzystosci wyslanej ramki    #
+            Gilbert.LoadGilbert()
             frame_out = TMR.TMR(Gilbert.Gilbert(frame), Gilbert.Gilbert(frame),Gilbert.Gilbert(frame))  # bedzie zgodny z bitem parzystosci wyliczonym            #
             frameParity = Pairyty.addPairityBit(frame_out)
             if Pairyty.getParityBit(originParity) == Pairyty.getParityBit(
@@ -43,6 +44,7 @@ class SAW:
     @staticmethod
     def SAW_GilbertCRC(frame, originCRC):
         while True:
+            Gilbert.LoadGilbert()
             frame_out = TMR.TMR(Gilbert.Gilbert(frame), Gilbert.Gilbert(frame), Gilbert.Gilbert(frame))
             frameCRC = CRC.CRC(frame_out)
             if frameCRC == originCRC:
