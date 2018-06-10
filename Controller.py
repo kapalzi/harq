@@ -82,7 +82,7 @@ class Controller(object):
         # ramka + saw + bsc + bit parzystosci
         frameSawBscPairytyTimes = []
         frameSizes = []
-        for x in range(0,9):
+        for x in range(1,9):
             img = Image.open("%d.png"%x)
             # img.show()
             height, width = img.size
@@ -114,7 +114,7 @@ class Controller(object):
         # ramka + saw + bsc + crc
         frameSawBscPairytyTimes = []
         frameSizes = []
-        for x in range(0, 9):
+        for x in range(1, 9):
             img = Image.open("%d.png" % x)
             # img.show()
             height, width = img.size
@@ -141,3 +141,11 @@ class Controller(object):
         plt.title("ramka + saw + bsc + crc")
         plt.grid()
         plt.show()
+
+        print("rozmiary:")
+        for x in frameSizes:
+            print(x)
+
+        print("czasy:")
+        for x in frameSawBscPairytyTimes:
+            print(x)
