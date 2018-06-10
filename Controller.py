@@ -173,7 +173,7 @@ class Controller(object):
         plt.scatter(frameSizes, prob)
         plt.xlabel("Rozmiar Ramki")
         plt.ylabel("nack/ack")
-        plt.title("Gilbert + Bit parzystości")
+        plt.title("SR + Gilbert + Bit parzystości")
         plt.grid()
         plt.show()
 
@@ -205,7 +205,7 @@ class Controller(object):
         plt.scatter(frameSizes, prob)
         plt.xlabel("Rozmiar Ramki")
         plt.ylabel("nack/ack")
-        plt.title("BSC + CRC")
+        plt.title("SR + BSC + CRC")
         plt.grid()
         plt.show()
 
@@ -237,7 +237,7 @@ class Controller(object):
         plt.scatter(frameSizes, prob)
         plt.xlabel("Rozmiar Ramki")
         plt.ylabel("nack/ack")
-        plt.title("Gilbert + CRC")
+        plt.title("SR + Gilbert + CRC")
         plt.grid()
         plt.show()
 
