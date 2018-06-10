@@ -22,8 +22,9 @@ def BSCParity(frame, originParity):
 
 def GilbertParity(frame, originParity):
     while True:
-        frame_out = TMR.TMR(BSC.BSC(frame), BSC.BSC(frame),
-                            BSC.BSC(frame))  # bedzie zgodny z bitem parzystosci wyliczonym            #
+        Gilbert.LoadGilbert()
+        frame_out = TMR.TMR(Gilbert.Gilbert(frame), Gilbert.Gilbert(frame),
+                            Gilbert.Gilbert(frame))  # bedzie zgodny z bitem parzystosci wyliczonym            #
         frameParity = Pairyty.addPairityBit(frame_out)
         if Pairyty.getParityBit(originParity) == Pairyty.getParityBit(frameParity):  # z nadawanej ramki.                                      #
             Stats.ACKCounter += 1
@@ -43,6 +44,7 @@ def BSCCRC(frame, originCRC):
 
 def GilbertCRC(frame, originCRC):
     while True:
+        Gilbert.LoadGilbert()
         frame_out = TMR.TMR(Gilbert.Gilbert(frame), Gilbert.Gilbert(frame), Gilbert.Gilbert(frame))
         frameCRC = CRC.CRC(frame_out)
         if frameCRC == originCRC:
