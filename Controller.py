@@ -87,7 +87,6 @@ class Controller(object):
             # img.show()
             height, width = img.size
             frameSizes.append(height*width*3)
-            print(img.size)
             start_time = time.time()
             array = np.array(img)
             for x in range(0,width):
@@ -110,17 +109,35 @@ class Controller(object):
         plt.grid()
         plt.show()
 
+
+
         # ramka + saw + bsc + crc
-        array = np.array(img)
-        for x in range(0, width):
-            for y in range(0, height):
-                for rgb in range(0, 3):
-                    originCRC = CRC.CRC(array[x, y, rgb])
-                    array[x, y, rgb] = SAW.SAW_CRC(array[x, y, rgb], originCRC)
+        frameSawBscPairytyTimes = []
+        frameSizes = []
+        for x in range(0, 9):
+            img = Image.open("%d.png" % x)
+            # img.show()
+            height, width = img.size
+            frameSizes.append(height * width * 3)
+            start_time = time.time()
 
-        imgSAW = Image.fromarray(array)
-        imgSAW.save('AfterSAWCRC.png')
-        imgSAW.show()
+            array = np.array(img)
+            for x in range(0, width):
+                for y in range(0, height):
+                    for rgb in range(0, 3):
+                        originCRC = CRC.CRC(array[x, y, rgb])
+                        array[x, y, rgb] = SAW.SAW_CRC(array[x, y, rgb], originCRC)
 
-        for x in frameSawBscPairytyTimes:
-            print(x)
+            imgSAW = Image.fromarray(array)
+            imgSAW.save('AfterSAWCRC.png')
+            # imgSAW.show()
+            elapsed_time = time.time() - start_time
+            frameSawBscPairytyTimes.append(elapsed_time)
+
+        plt.plot(frameSizes, frameSawBscPairytyTimes)
+        plt.scatter(frameSizes, frameSawBscPairytyTimes)
+        plt.xlabel("Rozmiar Ramki")
+        plt.ylabel("Czas")
+        plt.title("ramka + saw + bsc + crc")
+        plt.grid()
+        plt.show()
