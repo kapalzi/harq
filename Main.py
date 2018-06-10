@@ -8,6 +8,7 @@ from pygame.locals import *
 from Controller import Controller
 
 # Controller.loadImg()
-controller = SRController()
-controller.animation()
-
+print("koniec")
+#controller = SRController()
+#controller.animation()
+Controller.loadImg()

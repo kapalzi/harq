@@ -7,7 +7,7 @@ import numpy as np
 import numpy as np
 from PIL import Image
 import random
-
+from CRC import CRC
 
 class Controller(object):
     """docstring for Controller"""
@@ -75,4 +75,15 @@ class Controller(object):
 
         imgSAW = Image.fromarray(array)
         imgSAW.save('AfterSAW.png')
+        imgSAW.show()
+
+        array = np.array(img)
+        for x in range(0, width):
+            for y in range(0, height):
+                for rgb in range(0, 3):
+                    originCRC = CRC.CRC(array[x, y, rgb])
+                    array[x, y, rgb] = SAW.SAW_CRC(array[x, y, rgb], originCRC)
+
+        imgSAW = Image.fromarray(array)
+        imgSAW.save('AfterSAWCRC.png')
         imgSAW.show()

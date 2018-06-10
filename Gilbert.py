@@ -12,13 +12,13 @@ class Gilbert(object):
                 if random.randint(0,99) < BER1:
                     XOR = XOR * 2
                     isValid = True
-                else:
+                else
                     isValid = False
-            elif not isValid:
+            elif not isValid
                 if random.randInt(0,99) < BER2:
                     frame = frame ^ _XOR
                     _XOR = _XOR * 2
                     isValid = False
-                else:
+                else
                     isValid = True
         return frame
