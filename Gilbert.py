@@ -1,24 +1,27 @@
 import random
 
 class Gilbert(object):
+    isValid = True; #Status stanu
+    BER1 = 100-1  # Procentowe prawdopodobienstwo wyjscia ze stanu dobrego
+    BER2 = 100-99  # Procentowe prawdopodobienstwo wyjscia ze stanu zlego
+
     @staticmethod
     def Gilbert(frame):
-        BER1 = 5 #Procentowe prawdopodobienstwo pozostania w stanie dobrym (Wyjscie ze stanu 1-BER1)
-        BER2 = 2 #Procentowe prawdopodobienstwo pozostania w stanie zlym (Wyjscie ze stanu 1-BER2)
-        isValid = True #Status stanu
         XOR = 1
         for i in range(0, 8):
-            if isValid:
-                if random.randint(0,99) < BER1:
-                    XOR = XOR * 2
-                    isValid = True
-                else
-                    isValid = False
-            elif not isValid
-                if random.randInt(0,99) < BER2:
-                    frame = frame ^ _XOR
-                    _XOR = _XOR * 2
-                    isValid = False
-                else
-                    isValid = True
+            if not Gilbert.isValid:
+                frame = frame ^ XOR
+                XOR = XOR * 2
         return frame
+    @staticmethod
+    def LoadGilbert():
+        if Gilbert.isValid:
+            if random.randint(0, 99) < Gilbert.BER1:
+                Gilbert.isValid = True
+            else:
+                Gilbert.isValid = False
+        elif not Gilbert.isValid:
+            if random.randint(0, 99) < Gilbert.BER2:
+                Gilbert.isValid = False
+            else:
+                Gilbert.isValid = True
