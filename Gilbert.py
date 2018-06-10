@@ -2,16 +2,31 @@ import random
 
 class Gilbert(object):
     isValid = True; #Status stanu
-    BER1 = 100-1  # Procentowe prawdopodobienstwo wyjscia ze stanu dobrego
-    BER2 = 100-99  # Procentowe prawdopodobienstwo wyjscia ze stanu zlego
-
+    BER1 = 100-15  # Procentowe prawdopodobienstwo wyjscia ze stanu dobrego (Pdz)
+    BER2 = 100-10  # Procentowe prawdopodobienstwo wyjscia ze stanu zlego (Pzd)
+    pd = 1 #Procentowe prawdopodobienstwa bledu w dobrym
+    pz = 99 #Procentowe prawdopodobienstwa bledu w zlym
+    PD = BER1/(BER1+BER2) #Prawdopodobienstwa graniczne pozostania w dobrym
+    PZ = BER2/(BER1+BER2) #Prawdopodobienstwa graniczne pozostania w zlym
+    Pe = PD * pd + PZ * pz; #Elementowa stopa bledow
     @staticmethod
     def Gilbert(frame):
         XOR = 1
         for i in range(0, 8):
             if not Gilbert.isValid:
-                frame = frame ^ XOR
-                XOR = XOR * 2
+                if random.randint(0, 99) < Gilbert.pz:
+                    frame = frame ^ XOR
+                    XOR = XOR * 2
+                else:
+                    XOR = XOR * 2
+            else:
+                if random.randint(0, 99) < Gilbert.pd:
+                    frame = frame ^ XOR
+                    XOR = XOR * 2
+                else:
+                    XOR = XOR * 2
+            print("Elementowa stopa bledu: ")
+            print(Gilbert.Pe)
         return frame
     @staticmethod
     def LoadGilbert():
