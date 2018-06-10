@@ -10,48 +10,12 @@ import random
 from CRC import CRC
 import time
 import matplotlib.pyplot as plt
+from Stats import Stats
+from SR import SR
 
 class Controller(object):
     """docstring for Controller"""
 
-    # def __init__(self, arg):
-    #     super(Controller, self).__init__()
-    #     self.arg = arg
-
-    # def loadWave(self):
-    #     file = wave.open("sample.wav")
-    #     binary_data = file.readframes(file.getnframes())
-    #     file.close()
-    #     # print(len(binary_datanary_data))
-    #     return  binary_data
-    #
-    # newFrame = []
-    # # for x in  loadWave(1):
-    # #     Pairyty.addPairityBit(x)
-    # #     origin_parity = Pairyty.addPairityBit(x)
-    # #     x = SAW.SAW(x, origin_parity)
-    # #     newFrame.append(x)
-    #
-    # # data = loadWave()
-    # file = 'sample.wav'
-    #
-    # with wave.open(file, 'r') as wav_file:
-    #     # Extract Raw Audio from Wav File
-    #     signal = wav_file.readframes(-1)
-    #     signal = np.fromstring(signal, 'Int16')
-    # fs = wav_file.getframerate()
-    #
-    # channels = [[] for channel in range(signal.getnchannels())]
-    # Time=np.linspace(0, len(signal)/len(channels)/fs, len(signal)/len(channels))
-    #
-    #     #Plot
-    #
-    # plt.figure(1)
-    # plt.title('Signal Wave...')
-    # for channel in channels:
-    #     plt.plot(Time,channel)
-    # plt.show()
-    # print(12)
     @staticmethod
     def loadImg():
 
@@ -60,8 +24,6 @@ class Controller(object):
             imgArray.fill(255)
             imgFromArray = Image.fromarray(imgArray.astype('uint8')).convert('RGBA')
             imgFromArray.save("%d.png"%x)
-
-
 
         img = Image.open("testimg.png")
         img.show()
@@ -77,70 +39,216 @@ class Controller(object):
         imgBSC.save('BSC.png')
         imgBSC.show()
 
-
-
         # ramka + saw + bsc + bit parzystosci
         frameSawBscPairytyTimes = []
         frameSizes = []
-        for x in range(1,9):
-            img = Image.open("%d.png"%x)
-            # img.show()
-            height, width = img.size
-            frameSizes.append(height*width*3)
-            start_time = time.time()
-            array = np.array(img)
-            for x in range(0,width):
-                for y in range(0,height):
-                    for rgb in range(0,3):
-                        originParity = Pairyty.addPairityBit(array[x,y,rgb])
-                        array[x,y,rgb] = SAW.SAW(array[x,y,rgb], originParity)
+        acks = []
+        nacks = []
+        prob = []
+        for y in range (0,100):
+            for x in range(1,9):
+                    img = Image.open("%d.png"%x)
+                    # img.show()
+                    height, width = img.size
+                    frameSizes.append(height*width*3)
+                    Stats.StatsRestart()
+                    start_time = time.time()
+                    array = np.array(img)
+                    for x in range(0,width):
+                        for y in range(0,height):
+                            for rgb in range(0,3):
+                                originParity = Pairyty.addPairityBit(array[x,y,rgb])
+                                array[x,y,rgb] = SAW.SAW(array[x,y,rgb], originParity)
 
-            imgSAW = Image.fromarray(array)
-            imgSAW.save('AfterSAW.png')
-            # imgSAW.show()
-            elapsed_time = time.time() - start_time
-            frameSawBscPairytyTimes.append(elapsed_time)
+                    imgSAW = Image.fromarray(array)
+                    imgSAW.save('AfterSAW.png')
+                    # imgSAW.show()
+                    elapsed_time = time.time() - start_time
+                    frameSawBscPairytyTimes.append(elapsed_time)
+                    acks.append(Stats.ACKCounter)
+                    nacks.append(Stats.NACKCounter)
+                    prob.append(Stats.NACKCounter/Stats.ACKCounter)
 
-        plt.plot(frameSizes, frameSawBscPairytyTimes)
-        plt.scatter(frameSizes, frameSawBscPairytyTimes)
+        # plt.plot(frameSizes, prob)
+        plt.scatter(frameSizes, prob)
         plt.xlabel("Rozmiar Ramki")
-        plt.ylabel("Czas")
+        plt.ylabel("nack/ack")
         plt.title("ramka + saw + bsc + bit parzystosci")
         plt.grid()
         plt.show()
 
-
-
         # ramka + saw + bsc + crc
         frameSawBscPairytyTimes = []
         frameSizes = []
-        for x in range(1, 9):
-            img = Image.open("%d.png" % x)
-            # img.show()
-            height, width = img.size
-            frameSizes.append(height * width * 3)
-            start_time = time.time()
+        prob = []
+        for y in range(0, 100):
+            for x in range(1, 9):
+                img = Image.open("%d.png" % x)
+                # img.show()
+                height, width = img.size
+                frameSizes.append(height * width * 3)
+                Stats.StatsRestart()
+                start_time = time.time()
 
-            array = np.array(img)
-            for x in range(0, width):
-                for y in range(0, height):
-                    for rgb in range(0, 3):
-                        originCRC = CRC.CRC(array[x, y, rgb])
-                        array[x, y, rgb] = SAW.SAW_CRC(array[x, y, rgb], originCRC)
+                array = np.array(img)
+                for x in range(0, width):
+                    for y in range(0, height):
+                        for rgb in range(0, 3):
+                            originCRC = CRC.CRC(array[x, y, rgb])
+                            array[x, y, rgb] = SAW.SAW_CRC(array[x, y, rgb], originCRC)
 
-            imgSAW = Image.fromarray(array)
-            imgSAW.save('AfterSAWCRC.png')
-            # imgSAW.show()
-            elapsed_time = time.time() - start_time
-            frameSawBscPairytyTimes.append(elapsed_time)
+                imgSAW = Image.fromarray(array)
+                imgSAW.save('AfterSAWCRC.png')
+                # imgSAW.show()
+                elapsed_time = time.time() - start_time
+                frameSawBscPairytyTimes.append(elapsed_time)
+                prob.append(Stats.NACKCounter/Stats.ACKCounter)
 
-        plt.plot(frameSizes, frameSawBscPairytyTimes)
-        plt.scatter(frameSizes, frameSawBscPairytyTimes)
+        # plt.plot(frameSizes, prob)
+        plt.scatter(frameSizes, prob)
         plt.xlabel("Rozmiar Ramki")
-        plt.ylabel("Czas")
+        plt.ylabel("nack/ack")
         plt.title("ramka + saw + bsc + crc")
         plt.grid()
         plt.show()
+
+        # SR + BSC + Parzystosc
+        frameSawBscPairytyTimes = []
+        frameSizes = []
+        prob = []
+        for y in range(0, 100):
+            for x in range(1, 9):
+                img = Image.open("%d.png" % x)
+                # img.show()
+                height, width = img.size
+                frameSizes.append(height * width * 3)
+                Stats.StatsRestart()
+                start_time = time.time()
+
+                array = np.array(img)
+
+                array = SR.SR(array,width,height,1)
+
+                imgSAW = Image.fromarray(array)
+                imgSAW.save('AfterSAWCRC.png')
+                # imgSAW.show()
+                elapsed_time = time.time() - start_time
+                frameSawBscPairytyTimes.append(elapsed_time)
+                prob.append(Stats.NACKCounter / Stats.ACKCounter)
+
+        # plt.plot(frameSizes, prob)
+        plt.scatter(frameSizes, prob)
+        plt.xlabel("Rozmiar Ramki")
+        plt.ylabel("nack/ack")
+        plt.title("SR + BSC + Parzystosc")
+        plt.grid()
+        plt.show()
+
+
+        # Gilbert + parzystości
+        frameSawBscPairytyTimes = []
+        frameSizes = []
+        prob = []
+        for y in range(0, 100):
+            for x in range(1, 9):
+                img = Image.open("%d.png" % x)
+                # img.show()
+                height, width = img.size
+                frameSizes.append(height * width * 3)
+                Stats.StatsRestart()
+                start_time = time.time()
+
+                array = np.array(img)
+
+                array = SR.SR(array,width,height,2)
+
+                imgSAW = Image.fromarray(array)
+                imgSAW.save('AfterSAWCRC.png')
+                # imgSAW.show()
+                elapsed_time = time.time() - start_time
+                frameSawBscPairytyTimes.append(elapsed_time)
+                prob.append(Stats.NACKCounter / Stats.ACKCounter)
+
+        # plt.plot(frameSizes, prob)
+        plt.scatter(frameSizes, prob)
+        plt.xlabel("Rozmiar Ramki")
+        plt.ylabel("nack/ack")
+        plt.title("Gilbert + parzystości")
+        plt.grid()
+        plt.show()
+
+        # BSC + CRC
+        frameSawBscPairytyTimes = []
+        frameSizes = []
+        prob = []
+        for y in range(0, 100):
+            for x in range(1, 9):
+                img = Image.open("%d.png" % x)
+                # img.show()
+                height, width = img.size
+                frameSizes.append(height * width * 3)
+                Stats.StatsRestart()
+                start_time = time.time()
+
+                array = np.array(img)
+
+                array = SR.SR(array, width, height, 3)
+
+                imgSAW = Image.fromarray(array)
+                imgSAW.save('AfterSAWCRC.png')
+                # imgSAW.show()
+                elapsed_time = time.time() - start_time
+                frameSawBscPairytyTimes.append(elapsed_time)
+                prob.append(Stats.NACKCounter / Stats.ACKCounter)
+
+        # plt.plot(frameSizes, prob)
+        plt.scatter(frameSizes, prob)
+        plt.xlabel("Rozmiar Ramki")
+        plt.ylabel("nack/ack")
+        plt.title("BSC + CRC")
+        plt.grid()
+        plt.show()
+
+        # Gilbert + parzystości
+        frameSawBscPairytyTimes = []
+        frameSizes = []
+        prob = []
+        for y in range(0, 100):
+            for x in range(1, 9):
+                img = Image.open("%d.png" % x)
+                # img.show()
+                height, width = img.size
+                frameSizes.append(height * width * 3)
+                Stats.StatsRestart()
+                start_time = time.time()
+
+                array = np.array(img)
+
+                array = SR.SR(array, width, height, 4)
+
+                imgSAW = Image.fromarray(array)
+                imgSAW.save('AfterSAWCRC.png')
+                # imgSAW.show()
+                elapsed_time = time.time() - start_time
+                frameSawBscPairytyTimes.append(elapsed_time)
+                prob.append(Stats.NACKCounter / Stats.ACKCounter)
+
+        # plt.plot(frameSizes, prob)
+        plt.scatter(frameSizes, prob)
+        plt.xlabel("Rozmiar Ramki")
+        plt.ylabel("nack/ack")
+        plt.title("Gilbert + CRC")
+        plt.grid()
+        plt.show()
+
+
+
+
+
+
+
+
+
 
         print("rozmiary:")
         for x in frameSizes:
@@ -148,4 +256,12 @@ class Controller(object):
 
         print("czasy:")
         for x in frameSawBscPairytyTimes:
+            print(x)
+
+        print("acki")
+        for x in acks:
+            print(x)
+
+        print("nacki")
+        for x in nacks:
             print(x)
