@@ -9,6 +9,7 @@ from PIL import Image
 import random
 from CRC import CRC
 import time
+import matplotlib.pyplot as plt
 
 class Controller(object):
     """docstring for Controller"""
@@ -76,13 +77,17 @@ class Controller(object):
         imgBSC.save('BSC.png')
         imgBSC.show()
 
+
+
         # ramka + saw + bsc + bit parzystosci
         frameSawBscPairytyTimes = []
+        frameSizes = []
         for x in range(0,9):
             img = Image.open("%d.png"%x)
-            img.show()
+            # img.show()
             height, width = img.size
-
+            frameSizes.append(height*width*3)
+            print(img.size)
             start_time = time.time()
             array = np.array(img)
             for x in range(0,width):
@@ -93,10 +98,17 @@ class Controller(object):
 
             imgSAW = Image.fromarray(array)
             imgSAW.save('AfterSAW.png')
-            imgSAW.show()
+            # imgSAW.show()
             elapsed_time = time.time() - start_time
             frameSawBscPairytyTimes.append(elapsed_time)
 
+        plt.plot(frameSizes, frameSawBscPairytyTimes)
+        plt.scatter(frameSizes, frameSawBscPairytyTimes)
+        plt.xlabel("Rozmiar Ramki")
+        plt.ylabel("Czas")
+        plt.title("ramka + saw + bsc + bit parzystosci")
+        plt.grid()
+        plt.show()
 
         # ramka + saw + bsc + crc
         array = np.array(img)
