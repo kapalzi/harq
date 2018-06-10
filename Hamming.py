@@ -3,8 +3,8 @@ class Hamming(object):
     def createHamming(frame):
         frame = bin(frame)
 
-        frame_one = [frame[0], frame[1], frame[2], frame[3]] #dzieli ramke na dwie mniejsze
-        frame_two = [frame[4], frame[5], frame[6], frame[7]]
+        frame_one = [frame[2], frame[3], frame[4], frame[5]] #dzieli ramke na dwie mniejsze
+        frame_two = [frame[6], frame[7], frame[8], frame[9]]
 
         #dla pierwszej ramki
         pairity_one_one=frame_one[0]+frame_one[1]+frame_one[3] #pierwszy bit kontrolny
