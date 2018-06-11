@@ -27,7 +27,7 @@ class SRController:
         self.CorrectTransmitted = 0
         self.CPDTable = []
     def loadImg(self):
-        img = Image.open("testimg.png")
+        img = Image.open("3.png")
         img.show()
         self.Array = np.array(img)
         self.Width, self.Height = img.size

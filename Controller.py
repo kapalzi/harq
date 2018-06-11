@@ -12,6 +12,7 @@ import time
 import matplotlib.pyplot as plt
 from Stats import Stats
 from SR import SR
+from Gilbert import Gilbert
 
 class Controller(object):
     """docstring for Controller"""
@@ -19,11 +20,11 @@ class Controller(object):
     @staticmethod
     def loadImg():
 
-        for x in range(1,9):
-            imgArray = np.zeros([x,x*2,3], dtype=np.uint8)
-            imgArray.fill(255)
-            imgFromArray = Image.fromarray(imgArray.astype('uint8')).convert('RGBA')
-            imgFromArray.save("%d.png"%x)
+        # for x in range(1,9):
+        #     imgArray = np.zeros([x,x*2,3], dtype=np.uint8)
+        #     imgArray.fill(255)
+        #     imgFromArray = Image.fromarray(imgArray.astype('uint8')).convert('RGBA')
+        #     imgFromArray.save("%d.png"%x)
 
         img = Image.open("testimg.png")
         img.show()
@@ -34,10 +35,25 @@ class Controller(object):
         for x in range(0,width):
             for y in range(0,height):
                 for rgb in range(0,3):
-                    array[x,y,rgb] = BSC.BSC(array[x, y, rgb])
+                    Gilbert.LoadGilbert()
+                    array[x,y,rgb] = Gilbert.Gilbert(array[x, y, rgb])
+
         imgBSC = Image.fromarray(array)
         imgBSC.save('BSC.png')
         imgBSC.show()
+
+        array = np.array(img)
+        print(height, width)
+        for x in range(0, width):
+            for y in range(0, height):
+                for rgb in range(0, 3):
+                    array[x, y, rgb] = BSC.BSC(array[x, y, rgb])
+
+        imgBSC = Image.fromarray(array)
+        imgBSC.save('BSC.png')
+        imgBSC.show()
+
+
 
         # ramka + saw + bsc + bit parzystosci
         frameSawBscPairytyTimes = []
@@ -45,7 +61,7 @@ class Controller(object):
         acks = []
         nacks = []
         prob = []
-        for y in range (0,100):
+        for y in range (0,10):
             for x in range(1,9):
                     img = Image.open("%d.png"%x)
                     # img.show()
@@ -81,7 +97,7 @@ class Controller(object):
         frameSawBscPairytyTimes = []
         frameSizes = []
         prob = []
-        for y in range(0, 100):
+        for y in range(0, 10):
             for x in range(1, 9):
                 img = Image.open("%d.png" % x)
                 # img.show()
@@ -116,7 +132,7 @@ class Controller(object):
         frameSawBscPairytyTimes = []
         frameSizes = []
         prob = []
-        for y in range(0, 100):
+        for y in range(0, 10):
             for x in range(1, 9):
                 img = Image.open("%d.png" % x)
                 # img.show()
@@ -149,7 +165,7 @@ class Controller(object):
         frameSawBscPairytyTimes = []
         frameSizes = []
         prob = []
-        for y in range(0, 100):
+        for y in range(0, 10):
             for x in range(1, 9):
                 img = Image.open("%d.png" % x)
                 # img.show()
@@ -181,7 +197,7 @@ class Controller(object):
         frameSawBscPairytyTimes = []
         frameSizes = []
         prob = []
-        for y in range(0, 100):
+        for y in range(0, 10):
             for x in range(1, 9):
                 img = Image.open("%d.png" % x)
                 # img.show()
@@ -213,7 +229,7 @@ class Controller(object):
         frameSawBscPairytyTimes = []
         frameSizes = []
         prob = []
-        for y in range(0, 100):
+        for y in range(0, 10):
             for x in range(1, 9):
                 img = Image.open("%d.png" % x)
                 # img.show()
