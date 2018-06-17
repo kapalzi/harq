@@ -93,6 +93,14 @@ class Controller(object):
         plt.grid()
         plt.show()
 
+        plt.scatter(frameSawBscPairytyTimes, frameSizes)
+        plt.xlabel("Czas")
+        plt.ylabel("Rozmiar Ramki")
+        plt.title("SAW + BSC + Bit parzystosci")
+        plt.grid()
+        plt.show()
+
+
         # ramka + saw + bsc + crc
         frameSawBscPairytyTimes = []
         frameSizes = []
@@ -124,6 +132,13 @@ class Controller(object):
         plt.scatter(frameSizes, prob)
         plt.xlabel("Rozmiar Ramki")
         plt.ylabel("nack/ack")
+        plt.title("SAW + BSC + CRC")
+        plt.grid()
+        plt.show()
+
+        plt.scatter(frameSawBscPairytyTimes, frameSizes)
+        plt.xlabel("Czas")
+        plt.ylabel("Rozmiar Ramki")
         plt.title("SAW + BSC + CRC")
         plt.grid()
         plt.show()
@@ -160,6 +175,12 @@ class Controller(object):
         plt.grid()
         plt.show()
 
+        plt.scatter(frameSawBscPairytyTimes, frameSizes)
+        plt.xlabel("Czas")
+        plt.ylabel("Rozmiar Ramki")
+        plt.title("SR + BSC + Bit parzystości")
+        plt.grid()
+        plt.show()
 
         # Gilbert + parzystości
         frameSawBscPairytyTimes = []
@@ -189,6 +210,13 @@ class Controller(object):
         plt.scatter(frameSizes, prob)
         plt.xlabel("Rozmiar Ramki")
         plt.ylabel("nack/ack")
+        plt.title("SR + Gilbert + Bit parzystości")
+        plt.grid()
+        plt.show()
+
+        plt.scatter(frameSawBscPairytyTimes, frameSizes)
+        plt.xlabel("Czas")
+        plt.ylabel("Rozmiar Ramki")
         plt.title("SR + Gilbert + Bit parzystości")
         plt.grid()
         plt.show()
@@ -225,6 +253,13 @@ class Controller(object):
         plt.grid()
         plt.show()
 
+        plt.scatter(frameSawBscPairytyTimes, frameSizes)
+        plt.xlabel("Czas")
+        plt.ylabel("Rozmiar Ramki")
+        plt.title("SR + BSC + CRC")
+        plt.grid()
+        plt.show()
+
         # Gilbert + parzystości
         frameSawBscPairytyTimes = []
         frameSizes = []
@@ -253,6 +288,13 @@ class Controller(object):
         plt.scatter(frameSizes, prob)
         plt.xlabel("Rozmiar Ramki")
         plt.ylabel("nack/ack")
+        plt.title("SR + Gilbert + CRC")
+        plt.grid()
+        plt.show()
+
+        plt.scatter(frameSawBscPairytyTimes, frameSizes)
+        plt.xlabel("Czas")
+        plt.ylabel("Rozmiar Ramki")
         plt.title("SR + Gilbert + CRC")
         plt.grid()
         plt.show()
