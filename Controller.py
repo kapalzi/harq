@@ -100,6 +100,13 @@ class Controller(object):
         plt.grid()
         plt.show()
 
+        plt.scatter(nacks, frameSizes)
+        plt.xlabel("Retransmisje")
+        plt.ylabel("Rozmiar Ramki")
+        plt.title("SAW + BSC + Bit parzystosci")
+        plt.grid()
+        plt.show()
+
 
         # ramka + saw + bsc + crc
         frameSawBscPairytyTimes = []
@@ -138,6 +145,13 @@ class Controller(object):
 
         plt.scatter(frameSawBscPairytyTimes, frameSizes)
         plt.xlabel("Czas")
+        plt.ylabel("Rozmiar Ramki")
+        plt.title("SAW + BSC + CRC")
+        plt.grid()
+        plt.show()
+
+        plt.scatter(nacks, frameSizes)
+        plt.xlabel("Retransmisje")
         plt.ylabel("Rozmiar Ramki")
         plt.title("SAW + BSC + CRC")
         plt.grid()
@@ -182,6 +196,13 @@ class Controller(object):
         plt.grid()
         plt.show()
 
+        plt.scatter(nacks, frameSizes)
+        plt.xlabel("Retransmisje")
+        plt.ylabel("Rozmiar Ramki")
+        plt.title("SR + BSC + Bit parzystości")
+        plt.grid()
+        plt.show()
+
         # Gilbert + parzystości
         frameSawBscPairytyTimes = []
         frameSizes = []
@@ -216,6 +237,13 @@ class Controller(object):
 
         plt.scatter(frameSawBscPairytyTimes, frameSizes)
         plt.xlabel("Czas")
+        plt.ylabel("Rozmiar Ramki")
+        plt.title("SR + Gilbert + Bit parzystości")
+        plt.grid()
+        plt.show()
+
+        plt.scatter(nacks, frameSizes)
+        plt.xlabel("Retransmisje")
         plt.ylabel("Rozmiar Ramki")
         plt.title("SR + Gilbert + Bit parzystości")
         plt.grid()
@@ -260,6 +288,13 @@ class Controller(object):
         plt.grid()
         plt.show()
 
+        plt.scatter(nacks, frameSizes)
+        plt.xlabel("Retransmisje")
+        plt.ylabel("Rozmiar Ramki")
+        plt.title("SR + BSC + CRC")
+        plt.grid()
+        plt.show()
+
         # Gilbert + parzystości
         frameSawBscPairytyTimes = []
         frameSizes = []
@@ -299,27 +334,9 @@ class Controller(object):
         plt.grid()
         plt.show()
 
-
-
-
-
-
-
-
-
-
-        print("rozmiary:")
-        for x in frameSizes:
-            print(x)
-
-        print("czasy:")
-        for x in frameSawBscPairytyTimes:
-            print(x)
-
-        print("acki")
-        for x in acks:
-            print(x)
-
-        print("nacki")
-        for x in nacks:
-            print(x)
+        plt.scatter(nacks, frameSizes)
+        plt.xlabel("Retransmisje")
+        plt.ylabel("Rozmiar Ramki")
+        plt.title("SR + Gilbert + CRC")
+        plt.grid()
+        plt.show()
