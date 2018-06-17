@@ -11,7 +11,7 @@ windowsSize = 8
 actualTransmitted = 0
 array = 0
 
-timeOut = 2 #sekundy
+
 
 
 def BSCParity(frame, originParity):
@@ -77,6 +77,8 @@ class Watek(threading.Thread):
 
 
 class SR:
+    timeOut = 2  # sekundy
+
     @staticmethod
     def SR(array, width, height, option):  # option1: BSC+Parity, option2: Gilbert+Parity, option3: BSC+CRC32, option4: Gilbert+CRC32
         clock = time.time()
