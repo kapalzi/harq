@@ -1,12 +1,14 @@
 import random
 
 class Stats(object):
-    NACKCounter = 0;
-    ACKCounter = 0;
+    NACKCounter = 0
+    ACKCounter = 0
+    TransmittingCounter = 0
     @staticmethod
     def StatsRestart():
-        Stats.NACKCounter = 0;
-        Stats.ACKCounter = 0;
+        Stats.NACKCounter = 0
+        Stats.ACKCounter = 0
+        Stats.TransmittingCounter = 0
         return
     @staticmethod
     def CalcProb(array, array2, width, height):

@@ -5,6 +5,9 @@ import time
 import pygame
 from CRC import CRC
 from BSC import BSC
+from TMR import TMR
+from Stats import Stats
+from Pairyty import Pairyty
 
 class CPD:
     def __init__(self, _surface, x, frame):
@@ -15,16 +18,17 @@ class CPD:
         self.X = x
         self.Frame = frame
         self.CCRC = CRC.CRC(self.Frame) #Correct CRC
-        self.SCRC = CRC.CRC(BSC.BSC(self.Frame)) #SendCRC
+        self.SCRC = CRC.CRC(TMR.TMR(BSC.BSC(self.Frame), BSC.BSC(self.Frame), BSC.BSC(self.Frame))) #SendCRC
         self.Sender = Sender(self.Surface, self.SenderColor, self.X)
         self.Receiver = Receiver(self.Surface, self.ReceiverColor, self.X, self.SCRC)
         self.Packet = []
-        self.Timeout = 30 #30sec timeout
+        self.Timeout = 60 #30sec timeout
         self.Timer = time.time()
         self.Received = False
         self.Transmitting = False
         self.Retransmitting = False
         self.ACK = False
+        self.Checked = False;
     def draw(self):
         for x in self.Packet:
             x.draw()
@@ -38,7 +42,7 @@ class CPD:
                     x.color = (0, 255, 0)
                 else:
                     x.color = (255, 0, 0)
-                x.direction = -1
+                x.direction = -5
 
             if x.rect.contains(self.Sender.rect):
                 x.direction = 0
@@ -46,18 +50,21 @@ class CPD:
                 if x.color == (255, 0, 0):
                     self.Retransmitting = True
                     self.Received = False
-                    self.SCRC = CRC.CRC(BSC.BSC(self.Frame))
+                    self.SCRC = CRC.CRC(TMR.TMR(BSC.BSC(self.Frame), BSC.BSC(self.Frame), BSC.BSC(self.Frame)))
                     self.Receiver.crc = self.SCRC
                     x.color = (128,128,128)
                 if x.color == (0, 255, 0):
                     self.ACK = True
                     self.Received = True
+                    self.Transmitting = False
+                    del x
 
 
         if self.Retransmitting or (time.time() - self.Timer >= self.Timeout and self.Transmitting == True):
             self.transmittingPacket()
+            Stats.NACKCounter+=1
+            Stats.TransmittingCounter += 1
             self.Retransmitting = False
-            self.Transmitting = False
     def updateColor(self):
         self.Sender.color = self.SenderColor
         self.Receiver.color = self.ReceiverColor

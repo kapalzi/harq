@@ -1,11 +1,9 @@
-import pygame, sys, os
+import pygame
 import time
-from pygame.locals import *
 from CPD import CPD
 import numpy as np
 from PIL import Image
-from BSC import BSC
-from CRC import CRC
+from Stats import Stats
 
 simulationSpeed = 1 #1 - realtime
 endToEndDelay = 5000 #5000ms
@@ -27,7 +25,7 @@ class SRController:
         self.CorrectTransmitted = 0
         self.CPDTable = []
     def loadImg(self):
-        img = Image.open("3.png")
+        img = Image.open("SRAnimation.png")
         img.show()
         self.Array = np.array(img)
         self.Width, self.Height = img.size
@@ -39,7 +37,14 @@ class SRController:
                 for rgb in range (0, 3):
                     self.Array[y,x,rgb] = self.CPDTable[temp].Frame
                     temp+=1
-                    
+
+        print("ACK: ")
+        print(Stats.ACKCounter)
+        print("Nack: ")
+        print(Stats.NACKCounter)
+        print("Transmissions: ")
+        print(Stats.TransmittingCounter)
+
         imgSR = Image.fromarray(self.Array)
         imgSR.save('AfterSR.png')
         imgSR.show()
@@ -68,22 +73,24 @@ class SRController:
                     self.CPDTable[temp].updateColor()
                     temp += 1
         while running:
-            self.CorrectTransmitted = 0
             window.fill((255, 255, 255))
-            if time.time() - self.Timer >= self.Timeout:
-                if self.ActualTransmitting < self.frameCount and self.AmountTransmitting < 8:
-                    self.CPDTable[self.ActualTransmitting].transmittingPacket()
-                    self.ActualTransmitting += 1
-                    self.AmountTransmitting += 1
-                    self.Timer = time.time()
+            if self.ActualTransmitting < self.frameCount and self.AmountTransmitting < 8:
+                self.CPDTable[self.ActualTransmitting].transmittingPacket()
+                self.ActualTransmitting += 1
+                self.AmountTransmitting += 1
+                Stats.TransmittingCounter+=1
+                self.Timer = time.time()
 
-            for x in self.CPDTable:
-                x.draw()
-                x.update()
-                if x.Received:
-                    if x.ACK:
+            for x in range(0, self.frameCount):
+                self.CPDTable[x].draw()
+                self.CPDTable[x].update()
+                if self.CPDTable[x].Received:
+                    if self.CPDTable[x].ACK and not self.CPDTable[x].Transmitting and not self.CPDTable[x].Checked:
+                        self.CPDTable[x].Checked = True
                         self.CorrectTransmitted += 1
                         self.AmountTransmitting -= 1
+                        Stats.ACKCounter+=1
+
             if self.CorrectTransmitted == self.frameCount:
                 self.recreateImg()
                 running = False

@@ -6,7 +6,7 @@ class Packet:
         self.surface = _surface
         self.color = _color
         self.rect = pygame.Rect(20*_x, 10, 15, 30)
-        self.direction = 1
+        self.direction = 5
 
     def setColor(self, _color):
         self.color = _color
